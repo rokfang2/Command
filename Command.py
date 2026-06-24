@@ -33,3 +33,15 @@ class DeleteCommand(Command):
             print(f"Pessoa com ID={id_pessoa} deletada.")
         else:
             print(f"Erro: Pessoa com ID={id_pessoa} não encontrada.")
+
+class GetCommand(Command):
+    def execute(self, args: list, db: dict):
+        if len(args) < 2:
+            print("Erro: Comando 'get' requer ID.")
+            return
+        id_pessoa = int(args[1])
+        pessoa = db.get(id_pessoa)
+        if pessoa:
+           print(f"ID: {pessoa.id} | Nome: {pessoa.nome}")
+        else:
+            print(f"Erro: Pessoa com ID={id_pessoa} não encontrada.")
