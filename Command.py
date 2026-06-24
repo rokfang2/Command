@@ -21,3 +21,4 @@ class NewCommand(Command):
         nome = " ".join(args[2:])
         db[id_pessoa] = Pessoa(id_pessoa, nome)
         print(f"Pessoa criada: ID={id_pessoa}, Nome={nome}")
+
