@@ -45,3 +45,43 @@ class GetCommand(Command):
            print(f"ID: {pessoa.id} | Nome: {pessoa.nome}")
         else:
             print(f"Erro: Pessoa com ID={id_pessoa} não encontrada.")
+
+
+def main(argv: list[str] | None = None):
+    if argv is None:
+        argv = sys.argv[1:]
+
+    db = {}
+    commands = {
+        "new": NewCommand(),
+        "delete": DeleteCommand(),
+        "get": GetCommand(),
+    }
+
+    if not argv or argv[0] in {"-h", "--help", "help"}:
+        print("Uso:")
+        print("  python Command.py new <id> <nome>")
+        print("  python Command.py delete <id>")
+        print("  python Command.py get <id>")
+        return 0
+
+    command_name = argv[0].lower()
+    command = commands.get(command_name)
+
+    if command is None:
+        print(f"Erro: comando '{command_name}' desconhecido.")
+        print("Use --help para ver os comandos disponíveis.")
+        return 1
+
+    try:
+        command.execute(argv, db)
+    except ValueError:
+        print("Erro: ID deve ser um número inteiro.")
+        return 1
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
